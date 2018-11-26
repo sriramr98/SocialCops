@@ -1,0 +1,23 @@
+{
+  "name": "socialcops",
+  "version": "1.0.0",
+  "description": "An Challenge API to show my skills",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sriram R",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongodb": "^3.1.10",
+    "mongoose": "^5.3.13"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
