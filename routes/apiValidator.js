@@ -37,9 +37,15 @@ const jsonPatchValidator = (req, res, next) => {
 };
 
 const imageResizeValidator = (req, res, next) => {
-  const imageUrl = req.body.imageUrl;
-  if (!imageUrl) {
+  const data = req.body;
+  if (!data.imageUrl) {
     return res.status(400).json(failureResponse(errorcodes.ERROR_INVALID_BODY_PARAMETER, "Invalid image url"));
+  }
+  if (!data.imageName) {
+    return res.status(400).json(failureResponse(errorcodes.ERROR_INVALID_BODY_PARAMETER, "Invalid image name"));
+  }
+  if (!data.imageFormat) {
+    return res.status(400).json(failureResponse(errorcodes.ERROR_INVALID_BODY_PARAMETER, "Invalid image format"));
   }
   next();
 }
