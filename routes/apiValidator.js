@@ -36,7 +36,16 @@ const jsonPatchValidator = (req, res, next) => {
   next();
 };
 
+const imageResizeValidator = (req, res, next) => {
+  const imageUrl = req.body.imageUrl;
+  if (!imageUrl) {
+    return res.status(400).json(failureResponse(errorcodes.ERROR_INVALID_BODY_PARAMETER, "Invalid image url"));
+  }
+  next();
+}
+
 module.exports = {
   loginUserValidator,
-  jsonPatchValidator
+  jsonPatchValidator,
+  imageResizeValidator
 };

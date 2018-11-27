@@ -5,6 +5,7 @@ const {
 } = require('./../utils/response');
 const errorcodes = require('./../utils/errorcodes');
 const jsonPatcher = require('fast-json-patch');
+const imageUtils = require('./../utils/imageUtils');
 
 const loginUserController = async (req, res) => {
   try {
@@ -48,7 +49,26 @@ const jsonPatchController = async (req, res) => {
   }
 };
 
+const resizeImageController = async (req, res) => {
+  try {
+    const imageUrl = req.body.imageUrl;
+    const imageName = req.body.imageName;
+    const imageFormat = req.body.imageFormat;
+    const imagePath = await imageUtils.downloadImage(imageUrl, imageName);
+    if (imagePath) {
+      imageUtils.resizeImage(imagePath, imageFormat, 50, 50).pipe(res);
+    } else {
+      return res.status(400).json("Error");
+    }
+  } catch (e) {
+    // if anything goes wrong and we didn't anticipate
+    return res.status(400).json("Error")
+  }
+
+};
+
 module.exports = {
   loginUserController,
-  jsonPatchController
+  jsonPatchController,
+  resizeImageController
 };

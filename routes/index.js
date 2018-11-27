@@ -8,6 +8,8 @@ router.post('/login', apiValidator.loginUserValidator, apiController.loginUserCo
 
 router.post('/patch', authenticateUserToken, apiValidator.jsonPatchValidator, apiController.jsonPatchController);
 
+router.post('/resize', authenticateUserToken, apiValidator.imageResizeValidator, apiController.resizeImageController);
+
 router.get('/rand', (req, res) => {
   res.send('Some randon text');
 });
