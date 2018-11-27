@@ -1,0 +1,4 @@
+module.exports = {
+  ERROR_SERVER_ERROR: "E1001",
+  ERROR_INVALID_BODY_PARAMETER: "E1002"
+};

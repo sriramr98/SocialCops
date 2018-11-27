@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const env = require('./../utils/env');
 
 const UserSchema = mongoose.Schema({
   username: {
@@ -12,6 +13,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  authTokens: [String],
   createdOn: {
     type: Date,
     default: Date.now
@@ -40,12 +42,12 @@ UserSchema.pre('save', function (next) {
 });
 
 // generates an auth token for an user
-UserSchema.methods.generateAuthToken = function () {
+UserSchema.methods.generateAuthToken = async function () {
   let user = this;
   const payload = {
     id: user.id
   };
-  const token = jwt.sign(payload, JWT_SECRET_KEY);
+  const token = jwt.sign(payload, env.JWT_SECRET_KEY);
   user.authTokens = user.authTokens.concat([token]);
   await user.save();
   return token;
@@ -56,10 +58,10 @@ UserSchema.statics.findByToken = async function (token) {
   let User = this;
   let decoded;
   try {
-    decoded = jwt.verify(token, JWT_SECRET_KEY);
+    decoded = jwt.verify(token, env.JWT_SECRET_KEY);
   } catch (e) {
     if (e.name == 'JsonWebTokenError') {
-      return Promise.reject(throwError('Token format not valid'));
+      return Promise.reject('Token format not valid');
     } else {
       return Promise.reject(e);
     }

@@ -4,6 +4,8 @@
   "description": "An Challenge API to show my skills",
   "main": "app.js",
   "scripts": {
+    "start": "npm app.js",
+    "server": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sriram R",
