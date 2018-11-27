@@ -10,8 +10,4 @@ router.post('/patch', authenticateUserToken, apiValidator.jsonPatchValidator, ap
 
 router.post('/resize', authenticateUserToken, apiValidator.imageResizeValidator, apiController.resizeImageController);
 
-router.get('/rand', (req, res) => {
-  res.send('Some randon text');
-});
-
 module.exports = router;
