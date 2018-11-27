@@ -4,6 +4,7 @@ const {
   failureResponse
 } = require('./../utils/response');
 const errorcodes = require('./../utils/errorcodes');
+const jsonPatcher = require('fast-json-patch');
 
 const loginUserController = async (req, res) => {
   try {
@@ -33,6 +34,21 @@ const loginUserController = async (req, res) => {
   }
 };
 
+const jsonPatchController = async (req, res) => {
+  try {
+    const jsonPatch = req.jsonPatch;
+    const jsonData = req.jsonData;
+
+    const modifiedJson = jsonPatcher.applyPatch(jsonData, jsonPatch).newDocument;
+    return res.status(200).json(successResponse(modifiedJson));
+
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json(failureResponse(errorcodes.ERROR_SERVER_ERROR, "Error applying patch"));
+  }
+};
+
 module.exports = {
-  loginUserController
+  loginUserController,
+  jsonPatchController
 };

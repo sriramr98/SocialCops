@@ -66,7 +66,7 @@ UserSchema.statics.findByToken = async function (token) {
       return Promise.reject(e);
     }
   }
-  return await User.findOne({
+  return User.findOne({
     _id: decoded.id,
     authTokens: token
   });
