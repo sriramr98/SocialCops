@@ -3,5 +3,6 @@ module.exports = {
   PORT: process.env.PORT || 3000,
   MONGODB_URI: process.env.MONGODB_URI || "mongodb://localhost:27017/socialcops",
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || "somesecretkeythatyouwillneverfigureout",
-  SENTRY_DSN: process.env.SENTRY_DSN
+  SENTRY_DSN: process.env.SENTRY_DSN,
+  NODE_ENV: process.env.NODE_ENV || 'dev'
 };

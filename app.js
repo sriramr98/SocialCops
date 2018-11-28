@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const Sentry = require('@sentry/node');
+
 // setup dotenv to read environment variables
 dotenv.config()
 
@@ -20,7 +21,6 @@ Sentry.init({
 });
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.errorHandler());
-
 
 // setup bodyparser middleware to read request body in requests
 // we're only reading JSON inputs
