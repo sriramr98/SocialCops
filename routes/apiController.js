@@ -18,16 +18,11 @@ const loginUserController = async (req, res) => {
     if (existingUser) {
       // user exists. generate token and login user
       // since we accept any password, I'm not really checking if passwords match
-      console.log('Existing user login');
       const token = await existingUser.generateAuthToken();
-      console.log(`Token is ${token}`)
       return res.status(200).json(successResponse(token));
     } else {
-      console.log('New user login');
       const savedUser = await new User(user).save();
-      console.log(`Saved user ${savedUser}`);
       const token = await savedUser.generateAuthToken();
-      console.log(`Token is ${token}`)
       return res.status(200).json(successResponse(token));
     }
   } catch (e) {

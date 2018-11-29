@@ -7,7 +7,6 @@ const errorCodes = require('./../utils/errorcodes');
 const authenticateUserToken = async (req, res, next) => {
   try {
     const authToken = req.header('Authorization');
-    console.log(`Auth token is ${authToken}`);
     if (!authToken) {
       return res.status(404).json(failureResponse(errorCodes.ERROR_INVALID_TOKEN, "Invalid token"));
     }
