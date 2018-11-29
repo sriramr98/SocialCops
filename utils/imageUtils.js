@@ -4,8 +4,8 @@ const path = require('path');
 const sharp = require('sharp');
 
 const downloadImage = async (imageUrl, imageName) => {
-  const imagePath = path.resolve(__dirname, 'images', imageName);
-  const folderName = __dirname + "/images";
+  const folderName = __dirname + "/../images";
+  const imagePath = path.resolve(folderName, imageName);
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName);
   }
