@@ -1,10 +1,12 @@
+'use strict';
+
 const fs = require('fs');
 const axios = require('axios');
 const path = require('path');
 const sharp = require('sharp');
 
 const downloadImage = async (imageUrl, imageName) => {
-  const folderName = __dirname + "/../images";
+  const folderName = __dirname + '/../images';
   const imagePath = path.resolve(folderName, imageName);
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName);
@@ -14,7 +16,7 @@ const downloadImage = async (imageUrl, imageName) => {
   const response = await axios({
     method: 'GET',
     url: imageUrl,
-    responseType: 'stream'
+    responseType: 'stream',
   });
 
   // pipe the result stream into file on disc
@@ -26,9 +28,10 @@ const downloadImage = async (imageUrl, imageName) => {
       resolve(imagePath);
     });
 
-    response.data.on('error', e => {
-      reject(e)
+    response.data.on('error', (e) => {
+      reject(e),
     });
+    
   });
 
 

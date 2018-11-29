@@ -30,7 +30,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.9.0",
-    "eslint-config-strongloop": "^2.1.0",
+    "eslint-config-google": "^0.11.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.6",
     "supertest": "^3.3.0"

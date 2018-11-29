@@ -1,9 +1,11 @@
+'use strict';
+
 // This module has util functions to standardize response schema
 const successResponse = (data) => {
   return {
     success: true,
     data,
-    error: null
+    error: null,
   };
 };
 
@@ -13,12 +15,12 @@ const failureResponse = (errorCode, error) => {
     data: null,
     error: {
       errorCode,
-      error
-    }
+      error,
+    },
   };
 };
 
 module.exports = {
   successResponse,
-  failureResponse
+  failureResponse,
 };
