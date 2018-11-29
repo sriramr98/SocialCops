@@ -4,7 +4,7 @@
   "description": "An Challenge API to show my skills",
   "main": "app.js",
   "scripts": {
-    "start": "npm app.js",
+    "start": "node app.js",
     "server": "nodemon app.js",
     "test": "mocha test/**.test.js"
   },
