@@ -1,16 +1,16 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
-const Sentry = require('@sentry/node');
+const express = require("express");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const Sentry = require("@sentry/node");
 
 // setup dotenv to read environment variables
-dotenv.config()
+dotenv.config();
 
 // Load Environment Varibles
-const env = require('./utils/env');
+const env = require("./utils/env");
 
 // INIT MONGODB CONNECTION
-require('./mongoose');
+require("./mongoose");
 
 // create a new express application
 const app = express();
@@ -27,10 +27,14 @@ app.use(Sentry.Handlers.errorHandler());
 app.use(bodyParser.json());
 
 // Listen to API routes
-const apiRoutes = require('./routes')
-app.use('/api', apiRoutes);
+const apiRoutes = require("./routes");
+app.use("/api", apiRoutes);
 
 // Start listening to requests
 app.listen(env.PORT, () => {
   console.log(`Server started on PORT ${env.PORT}`);
 });
+
+module.exports = {
+  app
+};
