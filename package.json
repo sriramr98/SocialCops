@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm app.js",
     "server": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**.test.js"
   },
   "author": "Sriram R",
   "license": "ISC",
@@ -27,6 +27,9 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.6"
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.6",
+    "supertest": "^3.3.0"
   }
 }
