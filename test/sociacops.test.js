@@ -63,7 +63,7 @@ describe('POST /api/login', () => {
 
   });
 
-  it('should login previously existin user', done => {
+  it('should login previously existing user', done => {
     request(app)
       .post('/api/login')
       .send(dummyUser)
@@ -88,7 +88,26 @@ describe('POST /api/login', () => {
       });
   });
 
-  it('should not login an invalid user body', done => {
+  it('should not login an user without username', done => {
+    request(app)
+      .post('/api/login')
+      .send({
+        password: 'sriramr123'
+      })
+      .expect(400)
+      .expect(res => {
+        assert.exists(res.body);
+        assert.isNotNull(res.body.error);
+        assert.isNull(res.body.data);
+        assert.equal(res.body.error.errorCode, errorcodes.ERROR_INVALID_BODY_PARAMETER);
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should not login an user without password', done => {
     request(app)
       .post('/api/login')
       .send({
@@ -221,6 +240,111 @@ describe('POST /api/patch', () => {
         done();
       });
 
+  });
+
+});
+
+// TEST resize route
+describe('POST /api/resize', () => {
+
+  it('should resize successfully', done => {
+    request(app)
+      .post('/api/resize')
+      .send({
+        imageUrl: "https://images.unsplash.com/photo-1543428994-15e7df56a5a3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0a519147afeb5734eb6e2896f06d22d1&auto=format&fit=crop&w=700&q=80",
+        imageName: "image1.png",
+        imageFormat: "png"
+      })
+      .set('Authorization', dummyUserToken)
+      .expect(200, done);
+  });
+
+  it('should return error when auth token is not sent', done => {
+    request(app)
+      .post('/api/resize')
+      .send({
+        imageUrl: "https://images.unsplash.com/photo-1543428994-15e7df56a5a3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0a519147afeb5734eb6e2896f06d22d1&auto=format&fit=crop&w=700&q=80",
+        imageName: "image1.png",
+        imageFormat: "png"
+      })
+      .expect(404)
+      .expect(res => {
+        assert.exists(res.body);
+        assert.equal(res.body.success, false);
+        assert.isNull(res.body.data);
+        assert.isNotNull(res.body.error);
+        assert.equal(res.body.error.errorCode, errorcodes.ERROR_INVALID_TOKEN);
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should return error when image url is not sent', done => {
+    request(app)
+      .post('/api/resize')
+      .send({
+        imageName: "image1.png",
+        imageFormat: "png"
+      })
+      .set('Authorization', dummyUserToken)
+      .expect(400)
+      .expect(res => {
+        assert.exists(res.body);
+        assert.equal(res.body.success, false);
+        assert.isNull(res.body.data);
+        assert.isNotNull(res.body.error);
+        assert.equal(res.body.error.errorCode, errorcodes.ERROR_INVALID_BODY_PARAMETER);
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should return error when image name is not sent', done => {
+    request(app)
+      .post('/api/resize')
+      .send({
+        imageUrl: "https://images.unsplash.com/photo-1543428994-15e7df56a5a3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0a519147afeb5734eb6e2896f06d22d1&auto=format&fit=crop&w=700&q=80",
+        imageFormat: "png"
+      })
+      .set('Authorization', dummyUserToken)
+      .expect(400)
+      .expect(res => {
+        assert.exists(res.body);
+        assert.equal(res.body.success, false);
+        assert.isNull(res.body.data);
+        assert.isNotNull(res.body.error);
+        assert.equal(res.body.error.errorCode, errorcodes.ERROR_INVALID_BODY_PARAMETER);
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should return error when image format is not sent', done => {
+    request(app)
+      .post('/api/resize')
+      .send({
+        imageUrl: "https://images.unsplash.com/photo-1543428994-15e7df56a5a3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0a519147afeb5734eb6e2896f06d22d1&auto=format&fit=crop&w=700&q=80",
+        imageName: "image1.png"
+      })
+      .set('Authorization', dummyUserToken)
+      .expect(400)
+      .expect(res => {
+        assert.exists(res.body);
+        assert.equal(res.body.success, false);
+        assert.isNull(res.body.data);
+        assert.isNotNull(res.body.error);
+        assert.equal(res.body.error.errorCode, errorcodes.ERROR_INVALID_BODY_PARAMETER);
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
   });
 
 });
