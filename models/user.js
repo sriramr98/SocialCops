@@ -7,17 +7,17 @@ const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     authTokens: [String],
     createdOn: {
         type: Date,
-        default: Date.now,
-    },
+        default: Date.now
+    }
 });
 
 // This middleware computes the hash of a password
@@ -27,16 +27,15 @@ UserSchema.pre('save', function(next) {
     if (user.isModified('password')) {
         bcrypt
             .genSalt(10)
-            .then((salt) => {
+            .then(salt => {
                 const password = user.password;
                 return bcrypt.hash(password, salt);
             })
-            .then((hash) => {
+            .then(hash => {
                 user.password = hash;
                 next();
             })
-            .catch((e) => {
-                console.log(`Error generating password hash ${e}`);
+            .catch(e => {
                 return Promise.reject(e);
             });
     } else {
@@ -48,7 +47,7 @@ UserSchema.pre('save', function(next) {
 UserSchema.methods.generateAuthToken = async function() {
     const user = this;
     const payload = {
-        id: user.id,
+        id: user.id
     };
     const token = jwt.sign(payload, env.JWT_SECRET_KEY);
     user.authTokens = user.authTokens.concat([token]);
@@ -71,7 +70,7 @@ UserSchema.statics.findByToken = async function(token) {
     }
     return User.findOne({
         _id: decoded.id,
-        authTokens: token,
+        authTokens: token
     });
 };
 

@@ -2,6 +2,35 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const Sentry = require('@sentry/node');
+const morgan = require('morgan');
+const path = require('path');
+const fs = require('fs');
+const _ = require('lodash');
+
+// create a new express application
+const app = express();
+
+// create the log folder if it doesn't exist
+if (!fs.existsSync(__dirname + '/logs')) {
+    fs.mkdirSync(__dirname + '/logs');
+}
+
+// setup logging using morgan
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, 'logs', 'access.log'),
+    { flags: 'a' }
+);
+morgan.token('pid', (req, res) => {
+    return _.get(req, 'session.user.pid') || 'Guest';
+});
+morgan.format(
+    'myformat',
+    ':pid - [:date[clf]] ":method :url" :status :res[content-length] - :response-time ms'
+);
+
+app.use(morgan('myformat', { stream: accessLogStream }));
+
+const logger = require('./winston');
 
 // setup dotenv to read environment variables
 dotenv.config();
@@ -12,12 +41,9 @@ const env = require('./utils/env');
 // INIT MONGODB CONNECTION
 require('./mongoose');
 
-// create a new express application
-const app = express();
-
 // INIT SENTRY
 Sentry.init({
-    dsn: env.SENTRY_DSN,
+    dsn: env.SENTRY_DSN
 });
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.errorHandler());
@@ -32,9 +58,9 @@ app.use('/api', apiRoutes);
 
 // Start listening to requests
 app.listen(env.PORT, () => {
-    console.log(`Server started on PORT ${env.PORT}`);
+    logger.info(`Server started at port ${env.PORT}`);
 });
 
 module.exports = {
-    app,
+    app
 };

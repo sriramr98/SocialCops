@@ -1,5 +1,5 @@
 const User = require('./../models/user');
-const {successResponse, failureResponse} = require('./../utils/response');
+const { successResponse, failureResponse } = require('./../utils/response');
 const errorcodes = require('./../utils/errorcodes');
 const jsonPatcher = require('fast-json-patch');
 const imageUtils = require('./../utils/imageUtils');
@@ -9,7 +9,7 @@ const loginUserController = async (req, res) => {
         const user = req.body;
         // find if the user already exists
         const existingUser = await User.findOne({
-            username: user.username,
+            username: user.username
         });
 
         if (existingUser) {
@@ -24,7 +24,6 @@ const loginUserController = async (req, res) => {
             return res.status(200).json(successResponse(token));
         }
     } catch (e) {
-        console.log(e);
         const failureResponse = failureResponse(
             errorcodes.ERROR_SERVER_ERROR,
             'Unable to login user'
@@ -42,7 +41,6 @@ const jsonPatchController = async (req, res) => {
             .newDocument;
         return res.status(200).json(successResponse(modifiedJson));
     } catch (e) {
-        console.log(e);
         return res
             .status(400)
             .json(
@@ -63,7 +61,7 @@ const resizeImageController = async (req, res) => {
             return res.status(400).json('Error');
         }
     } catch (e) {
-        // if anything goes wrong and we didn't anticipate
+    // if anything goes wrong and we didn't anticipate
         return res.status(400).json('Error');
     }
 };
@@ -71,5 +69,5 @@ const resizeImageController = async (req, res) => {
 module.exports = {
     loginUserController,
     jsonPatchController,
-    resizeImageController,
+    resizeImageController
 };
