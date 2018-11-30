@@ -41,12 +41,15 @@ const env = require('./utils/env');
 // INIT MONGODB CONNECTION
 require('./mongoose');
 
-// INIT SENTRY
-Sentry.init({
-    dsn: env.SENTRY_DSN
-});
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.errorHandler());
+// only use sentry if there is a SENTRY_DSN link in the environment variables
+if (env.SENTRY_DSN) {
+    // INIT SENTRY
+    Sentry.init({
+        dsn: env.SENTRY_DSN
+    });
+    app.use(Sentry.Handlers.requestHandler());
+    app.use(Sentry.Handlers.errorHandler());
+}
 
 // setup bodyparser middleware to read request body in requests
 // we're only reading JSON inputs
