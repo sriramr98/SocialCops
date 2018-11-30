@@ -17,7 +17,7 @@ const app = express();
 
 // INIT SENTRY
 Sentry.init({
-  dsn: env.SENTRY_DSN,
+    dsn: env.SENTRY_DSN,
 });
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.errorHandler());
@@ -32,9 +32,9 @@ app.use('/api', apiRoutes);
 
 // Start listening to requests
 app.listen(env.PORT, () => {
-  console.log(`Server started on PORT ${env.PORT}`);
+    console.log(`Server started on PORT ${env.PORT}`);
 });
 
 module.exports = {
-  app,
+    app,
 };

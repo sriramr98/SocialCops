@@ -3,17 +3,17 @@
  */
 const mongoose = require('mongoose');
 const {
-  MONGODB_URI,
+    MONGODB_URI,
 } = require('./utils/env');
 
 mongoose.set('useCreateIndex', true);
 mongoose.Promise = global.Promise;
 mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
+    useNewUrlParser: true,
 }).then(() => {
-  console.log('Connected to MONGODB');
+    console.log('Connected to MONGODB');
 }).catch((e) => {
-  console.log(`Error connecting to MONGODB ${e}`);
+    console.log(`Error connecting to MONGODB ${e}`);
 });
 
 module.exports = mongoose;
